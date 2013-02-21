@@ -116,6 +116,11 @@ typedef void (^UAGithubEngineFailureBlock)(NSError *);
 - (void)issueEventsForRepository:(NSString *)repositoryPath success:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock;
 - (void)issueEvent:(NSInteger)eventId forRepository:(NSString*)repositoryPath success:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock;
 
+#pragma mark Starring
+
+// List repositories being starred
+- (void)repositoriesStarredByUser:(NSString *)user success:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock;
+
 
 #pragma mark Labels
 

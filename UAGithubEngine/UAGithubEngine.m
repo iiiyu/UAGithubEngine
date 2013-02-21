@@ -746,6 +746,12 @@
     [self invoke:^(id self){[self sendRequest:[NSString stringWithFormat:@"repos/%@/issues/events/%ld", repositoryPath, eventId] requestType:UAGithubIssueEventRequest responseType:UAGithubIssueEventResponse error:nil];} success:successBlock failure:failureBlock];
 }
 
+#pragma mark Starring
+
+- (void)repositoriesStarredByUser:(NSString *)user success:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock
+{
+    	[self invoke:^(id self){[self sendRequest:[NSString stringWithFormat:@"users/%@/starred", user] requestType:UAGithubRepositoryLabelsRequest responseType:UAGithubRepositoryLabelsResponse error:nil];} success:successBlock failure:failureBlock];
+}
 
 #pragma mark Labels
 
