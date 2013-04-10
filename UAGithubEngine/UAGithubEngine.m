@@ -41,7 +41,7 @@
 
 @implementation UAGithubEngine
 
-@synthesize username, password, reachability, isReachable;
+@synthesize username, password, token, reachability, isReachable;
 
 #pragma mark
 #pragma mark Setup & Teardown
@@ -64,6 +64,21 @@
 	
 	return self;
 		
+}
+
+- (id)initWithToken:(NSString *)aToken withReachablity:(BOOL)withReach
+{
+    self = [super init];
+	if (self)
+	{
+		token = aToken;
+		if (withReach)
+		{
+			reachability = [[UAReachability alloc] init];
+		}
+	}
+	
+	return self;
 }
 
 
@@ -147,8 +162,10 @@
 	NSURL *theURL = [NSURL URLWithString:urlString];
 	
 	NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:theURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
-	if (self.username && self.password)
-	{
+    
+    if (self.token) {
+        [urlRequest setValue:[NSString stringWithFormat:@"token %@", self.token] forHTTPHeaderField:@"Authorization"];
+    } else if (self.username && self.password) {
 		[urlRequest setValue:[NSString stringWithFormat:@"Basic %@", [[[NSString stringWithFormat:@"%@:%@", self.username, self.password] dataUsingEncoding:NSUTF8StringEncoding] base64EncodedString]] forHTTPHeaderField:@"Authorization"];	
 	}
 

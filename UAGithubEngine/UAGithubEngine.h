@@ -17,10 +17,13 @@ typedef void (^UAGithubEngineFailureBlock)(NSError *);
 
 @property (strong) NSString *username;
 @property (nonatomic, strong) NSString *password;
+@property (nonatomic, strong) NSString *token;
+
 @property (nonatomic, strong) UAReachability *reachability;
 @property (nonatomic, assign, readonly) BOOL isReachable;
 
 - (id)initWithUsername:(NSString *)aUsername password:(NSString *)aPassword withReachability:(BOOL)withReach;
+- (id)initWithToken:(NSString *)aToken withReachablity:(BOOL)withReach;
 
 /*
  Where methods take a 'whateverPath' argument, supply the full path to 'whatever'.
