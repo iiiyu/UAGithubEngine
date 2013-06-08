@@ -124,7 +124,7 @@ typedef void (^UAGithubEngineFailureBlock)(NSError *);
 // List repositories being starred
 - (void)repositoriesStarredByUser:(NSString *)user success:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock;
 
-- (void)repositoriesStarredSuccess:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock;
+- (void)repositoriesStarredPage:(int)page success:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock;
 
 #pragma mark Labels
 

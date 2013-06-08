@@ -770,9 +770,9 @@
     	[self invoke:^(id self){[self sendRequest:[NSString stringWithFormat:@"users/%@/starred", user] requestType:UAGithubRepositoryLabelsRequest responseType:UAGithubRepositoryLabelsResponse error:nil];} success:successBlock failure:failureBlock];
 }
 
-- (void)repositoriesStarredSuccess:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock
+- (void)repositoriesStarredPage:(int)page success:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock
 {
-    [self invoke:^(id self){[self sendRequest:@"user/starred" requestType:UAGithubRepositoryLabelsRequest responseType:UAGithubRepositoryLabelsResponse error:nil];} success:successBlock failure:failureBlock];
+    [self invoke:^(id self){[self sendRequest:@"user/starred" requestType:UAGithubRepositoryLabelsRequest responseType:UAGithubRepositoryLabelsResponse page:page error:nil];} success:successBlock failure:failureBlock];
 }
 
 #pragma mark Labels
