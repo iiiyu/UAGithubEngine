@@ -1730,9 +1730,6 @@
 #pragma mark - Readme
 - (void)readmeOwner:(NSString *)owner OnRepository:(NSString *)repo  withSuccess:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock
 {
-//    [self invoke:^(id obj) {
-//        [self sendRequest:@"" requestType:UAGithubAssigneeRequest responseType:UAGithubmak withParameters:params page:<#(NSInteger)#> error:<#(NSError *__autoreleasing *)#>]
-//    } booleanSuccess:successBlock failure:failureBlock];
         	[self invoke:^(id self){[self sendRequest:[NSString stringWithFormat:@"repos/%@/%@/readme", owner, repo] requestType:UAGithubRepositoryLabelsRequest responseType:UAGithubRepositoryLabelsResponse error:nil];} success:successBlock failure:failureBlock];
 }
 
