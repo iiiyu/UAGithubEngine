@@ -1733,7 +1733,7 @@
 //    [self invoke:^(id obj) {
 //        [self sendRequest:@"" requestType:UAGithubAssigneeRequest responseType:UAGithubmak withParameters:params page:<#(NSInteger)#> error:<#(NSError *__autoreleasing *)#>]
 //    } booleanSuccess:successBlock failure:failureBlock];
-        	[self invoke:^(id self){[self sendRequest:[NSString stringWithFormat:@"/repos/%@/%@/readme", owner, repo] requestType:UAGithubRepositoryLabelsRequest responseType:UAGithubRepositoryLabelsResponse error:nil];} success:successBlock failure:failureBlock];
+        	[self invoke:^(id self){[self sendRequest:[NSString stringWithFormat:@"repos/%@/%@/readme", owner, repo] requestType:UAGithubRepositoryLabelsRequest responseType:UAGithubRepositoryLabelsResponse error:nil];} success:successBlock failure:failureBlock];
 }
 
 
