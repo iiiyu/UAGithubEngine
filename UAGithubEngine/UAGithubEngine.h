@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 @class UAReachability;
 
-typedef void (^UAGithubEngineSuccessBlock)(id);
+typedef void (^UAGithubEngineSuccessBlock)(id response);
 typedef void (^UAGithubEngineBooleanSuccessBlock)(BOOL);
-typedef void (^UAGithubEngineFailureBlock)(NSError *);
+typedef void (^UAGithubEngineFailureBlock)(NSError *error);
 
 @interface UAGithubEngine : NSObject 
 
@@ -408,6 +408,10 @@ typedef void (^UAGithubEngineFailureBlock)(NSError *);
 
 - (void)renderAsMarkdown:(NSString *)string success:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock;
 - (void)renderAsGitHubFlavoredMarkdown:(NSString *)string withRepositoryContext:(NSString *)repositoryPath success:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock;
+
+
+#pragma mark - Readme
+- (void)readmeOwner:(NSString *)owner OnRepository:(NSString *)repo  withSuccess:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock;
 
 
 @end

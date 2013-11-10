@@ -1793,4 +1793,11 @@ singlePageSuccess:singleSuccessBlock
 }
 
 
+#pragma mark - Readme
+- (void)readmeOwner:(NSString *)owner OnRepository:(NSString *)repo  withSuccess:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock
+{
+        	[self invoke:^(id self){[self sendRequest:[NSString stringWithFormat:@"repos/%@/%@/readme", owner, repo] requestType:UAGithubRepositoryLabelsRequest responseType:UAGithubRepositoryLabelsResponse error:nil];} success:successBlock failure:failureBlock];
+}
+
+
 @end
