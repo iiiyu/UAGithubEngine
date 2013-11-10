@@ -123,6 +123,10 @@ typedef void (^UAGithubEngineFailureBlock)(NSError *);
 
 // List repositories being starred
 - (void)repositoriesStarredByUser:(NSString *)user success:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock;
+- (void)repositoriesStarredByUser:(NSString *)user
+                singlePageSuccess:(UAGithubEngineSuccessBlock)singleSuccessBlock
+                  endSuccessBlock:(UAGithubEngineSuccessBlock)endSuccessBlock
+                          failure:(UAGithubEngineFailureBlock)failureBlock;
 
 - (void)repositoriesStarredPage:(int)page success:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock;
 

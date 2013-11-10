@@ -424,6 +424,56 @@
 }
 
 
+- (void)invoke:(void (^)(id obj))invocationBlock singlePageSuccess:(UAGithubEngineSuccessBlock)singleSuccessBlock
+endSuccessBlock:(UAGithubEngineSuccessBlock)endSuccessBlock
+       failure:(UAGithubEngineFailureBlock)failureBlock
+{
+    NSError __unsafe_unretained *error = nil;
+    NSError * __unsafe_unretained *errorPointer = &error;
+    id __unsafe_unretained result;
+    
+    NSInvocation *invocation = [NSInvocation jr_invocationWithTarget:self block:invocationBlock];
+    // Method signatures differ between invocations, but the last argument is always where the NSError lives
+    [invocation setArgument:&errorPointer atIndex:[[invocation methodSignature] numberOfArguments] - 1];
+    [invocation invoke];
+    [invocation getReturnValue:&result];
+    
+    if (error)
+    {
+        failureBlock(error);
+        return;
+    }
+    
+    while (self.isMultiPageRequest && self.nextPageURL)
+    {
+        [self.multiPageArray addObjectsFromArray:result];
+        
+        if(singleSuccessBlock){
+            singleSuccessBlock(result);
+        }
+        
+        NSMutableString *requestPath = [self.nextPageURL query] ? [[[self.nextPageURL path] stringByAppendingFormat:@"?%@", [self.nextPageURL query]] mutableCopy] : [[self.nextPageURL path] mutableCopy];
+        [requestPath deleteCharactersInRange:NSMakeRange(0, 1)];
+        
+        [invocation setArgument:&requestPath atIndex:2];
+        [invocation setArgument:&errorPointer atIndex:[[invocation methodSignature] numberOfArguments] - 1];
+        [invocation invoke];
+        [invocation getReturnValue:&result];
+    }
+    
+    if (self.isMultiPageRequest)
+    {
+        [self.multiPageArray addObjectsFromArray:result];
+        NSLog(@"%@", @([self.multiPageArray count]));
+        endSuccessBlock(self.multiPageArray);
+    }
+    else
+    {
+        endSuccessBlock(result);
+    }
+}
+
+
 - (void)invoke:(void (^)(id obj))invocationBlock booleanSuccess:(UAGithubEngineBooleanSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock
 {
     
@@ -768,6 +818,22 @@
 - (void)repositoriesStarredByUser:(NSString *)user success:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock
 {
     	[self invoke:^(id self){[self sendRequest:[NSString stringWithFormat:@"users/%@/starred", user] requestType:UAGithubRepositoryLabelsRequest responseType:UAGithubRepositoryLabelsResponse error:nil];} success:successBlock failure:failureBlock];
+}
+
+- (void)repositoriesStarredByUser:(NSString *)user
+                singlePageSuccess:(UAGithubEngineSuccessBlock)singleSuccessBlock
+                  endSuccessBlock:(UAGithubEngineSuccessBlock)endSuccessBlock
+                          failure:(UAGithubEngineFailureBlock)failureBlock
+{
+    [self invoke:^(id self){
+        [self sendRequest:[NSString stringWithFormat:@"users/%@/starred", user]
+              requestType:UAGithubRepositoryLabelsRequest
+             responseType:UAGithubRepositoryLabelsResponse
+                    error:nil];
+    }
+singlePageSuccess:singleSuccessBlock
+ endSuccessBlock:endSuccessBlock
+         failure:failureBlock];
 }
 
 - (void)repositoriesStarredPage:(int)page success:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock
