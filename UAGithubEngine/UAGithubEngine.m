@@ -465,7 +465,7 @@ endSuccessBlock:(UAGithubEngineSuccessBlock)endSuccessBlock
     {
         [self.multiPageArray addObjectsFromArray:result];
         NSLog(@"%@", @([self.multiPageArray count]));
-        endSuccessBlock(self.multiPageArray);
+        endSuccessBlock(result);
     }
     else
     {
