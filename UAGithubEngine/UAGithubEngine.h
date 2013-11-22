@@ -127,6 +127,12 @@ typedef void (^UAGithubEngineFailureBlock)(NSError *error);
                 singlePageSuccess:(UAGithubEngineSuccessBlock)singleSuccessBlock
                   endSuccessBlock:(UAGithubEngineSuccessBlock)endSuccessBlock
                           failure:(UAGithubEngineFailureBlock)failureBlock;
+- (void)repositoriesStarredByUser:(NSString *)user
+                         clientID:(NSString *)clientid
+                     clientSecret:(NSString *)clientSecret
+                singlePageSuccess:(UAGithubEngineSuccessBlock)singleSuccessBlock
+                  endSuccessBlock:(UAGithubEngineSuccessBlock)endSuccessBlock
+                          failure:(UAGithubEngineFailureBlock)failureBlock;
 
 - (void)repositoriesStarredPage:(int)page success:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock;
 
@@ -412,6 +418,12 @@ typedef void (^UAGithubEngineFailureBlock)(NSError *error);
 
 #pragma mark - Readme
 - (void)readmeOwner:(NSString *)owner OnRepository:(NSString *)repo  withSuccess:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock;
+- (void)readmeOwner:(NSString *)owner
+       OnRepository:(NSString *)repo
+           clientID:(NSString *)clientid
+       clientSecret:(NSString *)clientSecret
+        withSuccess:(UAGithubEngineSuccessBlock)successBlock
+            failure:(UAGithubEngineFailureBlock)failureBlock;
 
 
 @end

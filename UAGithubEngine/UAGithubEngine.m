@@ -836,6 +836,31 @@ singlePageSuccess:singleSuccessBlock
          failure:failureBlock];
 }
 
+- (void)repositoriesStarredByUser:(NSString *)user
+                         clientID:(NSString *)clientid
+                     clientSecret:(NSString *)clientSecret
+                singlePageSuccess:(UAGithubEngineSuccessBlock)singleSuccessBlock
+                  endSuccessBlock:(UAGithubEngineSuccessBlock)endSuccessBlock
+                          failure:(UAGithubEngineFailureBlock)failureBlock
+{
+    NSString *request;
+    if (clientid && clientSecret) {
+        request = [NSString stringWithFormat:@"users/%@/starred?client_id=%@&client_secret=%@", user, clientid, clientSecret];
+    } else {
+        request = [NSString stringWithFormat:@"users/%@/starred", user];
+    }
+    
+    [self invoke:^(id self){
+        [self sendRequest:request
+              requestType:UAGithubRepositoryLabelsRequest
+             responseType:UAGithubRepositoryLabelsResponse
+                    error:nil];
+    }
+singlePageSuccess:singleSuccessBlock
+ endSuccessBlock:endSuccessBlock
+         failure:failureBlock];
+}
+
 - (void)repositoriesStarredPage:(int)page success:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock
 {
     [self invoke:^(id self){[self sendRequest:@"user/starred" requestType:UAGithubRepositoryLabelsRequest responseType:UAGithubRepositoryLabelsResponse page:page error:nil];} success:successBlock failure:failureBlock];
@@ -1797,6 +1822,29 @@ singlePageSuccess:singleSuccessBlock
 - (void)readmeOwner:(NSString *)owner OnRepository:(NSString *)repo  withSuccess:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock
 {
         	[self invoke:^(id self){[self sendRequest:[NSString stringWithFormat:@"repos/%@/%@/readme", owner, repo] requestType:UAGithubRepositoryLabelsRequest responseType:UAGithubRepositoryLabelsResponse error:nil];} success:successBlock failure:failureBlock];
+}
+
+- (void)readmeOwner:(NSString *)owner
+       OnRepository:(NSString *)repo
+           clientID:(NSString *)clientid
+       clientSecret:(NSString *)clientSecret
+        withSuccess:(UAGithubEngineSuccessBlock)successBlock
+            failure:(UAGithubEngineFailureBlock)failureBlock
+{
+    NSString *request;
+    if (clientid && clientSecret) {
+        request = [NSString stringWithFormat:@"repos/%@/%@/readme?client_id=%@&client_secret=%@", owner, repo, clientid, clientSecret];
+    } else {
+        request = [NSString stringWithFormat:@"repos/%@/%@/readme", owner, repo];
+    }
+    
+    [self invoke:^(id self){[self sendRequest:request
+                                  requestType:UAGithubRepositoryLabelsRequest
+                                 responseType:UAGithubRepositoryLabelsResponse
+                                        error:nil];
+    }
+         success:successBlock
+         failure:failureBlock];
 }
 
 
