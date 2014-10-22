@@ -21,8 +21,6 @@
 
         @autoreleasepool 
         {    
-            NSLog(@"New %@ connection: %@", request.HTTPMethod, request);
-
             NSURLResponse *response = nil;
             NSError *error = nil;
             NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
@@ -44,8 +42,6 @@
     
     @autoreleasepool 
     {    
-        NSLog(@"New %@ connection: %@", request.HTTPMethod, request);
-        
         NSURLResponse *response = nil;
         NSError *connectionError = nil;
         NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&connectionError];
