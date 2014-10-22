@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3BD77D9019F7C63A00FBBA13 /* UAGithubEngine_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD77D8F19F7C63A00FBBA13 /* UAGithubEngine_Tests.m */; };
+		3B2ED7B819F8265E00467DFD /* UAGithubEngineRepositoryMethod_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD77D8F19F7C63A00FBBA13 /* UAGithubEngineRepositoryMethod_Tests.m */; };
 		3BF3530419F7C702006D365E /* UAGithubEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC52FF9D15378566005A767A /* UAGithubEngine.framework */; };
 		CC52FF9F15378566005A767A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC52FF9E15378566005A767A /* Cocoa.framework */; };
 		CC52FFA615378566005A767A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CC52FFA415378566005A767A /* InfoPlist.strings */; };
@@ -41,7 +41,7 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		3BD77D8B19F7C63A00FBBA13 /* UAGithubEngine Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "UAGithubEngine Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BD77D8E19F7C63A00FBBA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3BD77D8F19F7C63A00FBBA13 /* UAGithubEngine_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UAGithubEngine_Tests.m; sourceTree = "<group>"; };
+		3BD77D8F19F7C63A00FBBA13 /* UAGithubEngineRepositoryMethod_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UAGithubEngineRepositoryMethod_Tests.m; sourceTree = "<group>"; };
 		5B2A1CE317ED4AC300AA109A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		5B2A1CE517ED4AC300AA109A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		5B2A1CE717ED4AC300AA109A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -151,7 +151,7 @@
 		3BD77D8C19F7C63A00FBBA13 /* UAGithubEngine Tests */ = {
 			isa = PBXGroup;
 			children = (
-				3BD77D8F19F7C63A00FBBA13 /* UAGithubEngine_Tests.m */,
+				3BD77D8F19F7C63A00FBBA13 /* UAGithubEngineRepositoryMethod_Tests.m */,
 				3BD77D8D19F7C63A00FBBA13 /* Supporting Files */,
 			);
 			path = "UAGithubEngine Tests";
@@ -324,7 +324,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3BD77D9019F7C63A00FBBA13 /* UAGithubEngine_Tests.m in Sources */,
+				3B2ED7B819F8265E00467DFD /* UAGithubEngineRepositoryMethod_Tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
