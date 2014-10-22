@@ -164,7 +164,7 @@
         }
         else
         {
-            querystring = [NSString stringWithFormat:@"?page=%ld", page];
+            querystring = [NSMutableString stringWithFormat:@"?page=%ld", page];
         }
     }
 
