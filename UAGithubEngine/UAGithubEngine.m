@@ -32,9 +32,21 @@
 @property (nonatomic, strong) NSMutableArray *multiPageArray;
 
 - (id)sendRequest:(NSString *)path requestType:(UAGithubRequestType)requestType responseType:(UAGithubResponseType)responseType error:(NSError **)error;
-- (id)sendRequest:(NSString *)path requestType:(UAGithubRequestType)requestType responseType:(UAGithubResponseType)responseType page:(NSInteger)page error:(NSError **)error;
+- (id)sendRequest:(NSString *)path requestType:(UAGithubRequestType)requestType responseType:(UAGithubResponseType)responseType page:(NSInteger)page itemsPerPage:(NSInteger)itemsPerPage error:(NSError **)error;
 - (id)sendRequest:(NSString *)path requestType:(UAGithubRequestType)requestType responseType:(UAGithubResponseType)responseType withParameters:(id)params error:(NSError **)error;
 - (id)sendRequest:(NSString *)path requestType:(UAGithubRequestType)requestType responseType:(UAGithubResponseType)responseType withParameters:(id)params page:(NSInteger)page error:(NSError **)error;
+
+/**
+ * @return The url for the next page of the response's url request
+ * @discussion nil may be returned if there is no next page url specified in the response
+ */
+- (NSURL *)nextPageURLFromResonse:(NSHTTPURLResponse *)response;
+
+/**
+ * @return The http method for a given request type
+ * @details Defaults to GET
+ */
+- (NSString *)httpMethodForRequestType:(UAGithubRequestType )requestType;
 
 @end
 
@@ -111,11 +123,14 @@
 {
     
     NSMutableString *urlString = [NSMutableString stringWithFormat:@"%@%@/%@", API_PROTOCOL, API_DOMAIN, path];
-    NSData *jsonData = nil;
-    NSError *serializationError = nil;
     
-    if ([params count] > 0)
+    NSString *httpMethod = [self httpMethodForRequestType:requestType];
+    
+    NSData *jsonData = nil;
+    
+    if ([params count] > 0 && ![httpMethod isEqual:@"GET"])
     {
+        NSError *serializationError = nil;
         jsonData = [NSJSONSerialization dataWithJSONObject:params options:0 error:&serializationError];
         
         if (serializationError)
@@ -124,7 +139,6 @@
             return nil;
         }
     }
-    
 
     NSMutableString *querystring = nil;
 
@@ -163,6 +177,8 @@
 	
 	NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:theURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
     
+    [urlRequest setHTTPMethod:httpMethod];
+    
     if (self.token) {
         [urlRequest setValue:[NSString stringWithFormat:@"token %@", self.token] forHTTPHeaderField:@"Authorization"];
     } else if (self.username && self.password) {
@@ -175,99 +191,6 @@
         [urlRequest setHTTPBody:jsonData];
     }
 
-	switch (requestType) 
-    {
-        case UAGithubIssueAddRequest:
-		case UAGithubRepositoryCreateRequest:
-		case UAGithubRepositoryDeleteConfirmationRequest:
-        case UAGithubMilestoneCreateRequest:
-		case UAGithubDeployKeyAddRequest:
-		case UAGithubDeployKeyDeleteRequest:
-		case UAGithubIssueCommentAddRequest:
-        case UAGithubPublicKeyAddRequest:            
-        case UAGithubRepositoryLabelAddRequest:
-        case UAGithubIssueLabelAddRequest:            
-        case UAGithubTreeCreateRequest:            
-        case UAGithubBlobCreateRequest:            
-        case UAGithubReferenceCreateRequest:
-        case UAGithubRawCommitCreateRequest:
-        case UAGithubGistCreateRequest:
-        case UAGithubGistCommentCreateRequest:
-        case UAGithubGistForkRequest:
-        case UAGithubPullRequestCreateRequest:
-        case UAGithubPullRequestCommentCreateRequest:
-        case UAGithubEmailAddRequest:    
-        case UAGithubTeamCreateRequest:
-        case UAGithubMarkdownRequest:
-        case UAGithubRepositoryMergeRequest:
-		{
-			[urlRequest setHTTPMethod:@"POST"];
-		}
-			break;
-
-		case UAGithubCollaboratorAddRequest:
-        case UAGithubIssueLabelReplaceRequest:
-        case UAGithubFollowRequest:
-        case UAGithubGistStarRequest:
-        case UAGithubPullRequestMergeRequest:            
-        case UAGithubOrganizationMembershipPublicizeRequest:
-        case UAGithubTeamMemberAddRequest:
-        case UAGithubTeamRepositoryManagershipAddRequest:
-        case UAGithubNotificationsMarkReadRequest:
-        case UAGithubNotificationThreadSubscriptionRequest:
-        {
-            [urlRequest setHTTPMethod:@"PUT"];
-        }
-            break;
-            
-		case UAGithubRepositoryUpdateRequest:
-        case UAGithubMilestoneUpdateRequest:
-        case UAGithubIssueEditRequest:
-        case UAGithubIssueCommentEditRequest:
-        case UAGithubPublicKeyEditRequest:
-        case UAGithubUserEditRequest:
-        case UAGithubRepositoryLabelEditRequest:
-        case UAGithubReferenceUpdateRequest:
-        case UAGithubGistUpdateRequest:
-        case UAGithubGistCommentUpdateRequest:
-        case UAGithubPullRequestUpdateRequest:
-        case UAGithubPullRequestCommentUpdateRequest:
-        case UAGithubOrganizationUpdateRequest: 
-        case UAGithubTeamUpdateRequest:
-        case UAGithubNotificationsMarkThreadReadRequest:
-        {
-            [urlRequest setHTTPMethod:@"PATCH"];
-        }
-            break;
-            
-        case UAGithubMilestoneDeleteRequest:
-        case UAGithubIssueDeleteRequest:
-        case UAGithubIssueCommentDeleteRequest:
-        case UAGithubUnfollowRequest:
-        case UAGithubPublicKeyDeleteRequest:
-		case UAGithubCollaboratorRemoveRequest:            
-        case UAGithubRepositoryLabelRemoveRequest:
-        case UAGithubIssueLabelRemoveRequest:
-        case UAGithubGistUnstarRequest:
-        case UAGithubGistDeleteRequest:
-        case UAGithubGistCommentDeleteRequest:
-        case UAGithubPullRequestCommentDeleteRequest:
-        case UAGithubEmailDeleteRequest:
-        case UAGithubOrganizationMemberRemoveRequest:
-        case UAGithubOrganizationMembershipConcealRequest:
-        case UAGithubTeamDeleteRequest:
-        case UAGithubTeamMemberRemoveRequest:
-        case UAGithubTeamRepositoryManagershipRemoveRequest:
-        case UAGithubNotificationDeleteSubscriptionRequest:
-        {
-            [urlRequest setHTTPMethod:@"DELETE"];
-        }
-            break;
-            
-		default:
-			break;
-	}
-	
     NSError __block __strong *blockError = nil;
     NSError *connectionError = nil;
 
@@ -277,10 +200,14 @@
                                     NSHTTPURLResponse *resp = (NSHTTPURLResponse *)response;
                                     NSInteger statusCode = resp.statusCode;
                                     
-                                    
-                                    if ([[[resp allHeaderFields] allKeys] containsObject:@"X-Ratelimit-Remaining"] && [[[resp allHeaderFields] valueForKey:@"X-Ratelimit-Remaining"] isEqualToString:@"1"])
-                                    {         
-                                        blockError = [NSError errorWithDomain:UAGithubAPILimitReached code:statusCode userInfo:[NSDictionary dictionaryWithObject:urlRequest forKey:@"request"]];
+                                    NSDictionary *headerFields = [resp allHeaderFields];
+                                    if ([[headerFields allKeys] containsObject:@"X-RateLimit-Remaining"] && [[[resp allHeaderFields] objectForKey:@"X-RateLimit-Remaining"] integerValue] == 0)
+                                    {
+                                        NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:headerFields];
+                                        [userInfo addEntriesFromDictionary:@{@"request":urlRequest}];
+                                        
+                                        blockError = [NSError errorWithDomain:UAGithubAPILimitReached code:statusCode userInfo:userInfo];
+
                                         return (id)[NSNull null];
                                     }
                                     
@@ -321,22 +248,11 @@
                                     
                                     else
                                     {
-                                        if ([[[resp allHeaderFields] allKeys] containsObject:@"Link"])
+                                        if (page <= 0 && [[[resp allHeaderFields] allKeys] containsObject:@"Link"])
                                         {
                                             self.isMultiPageRequest = YES;
-                                            NSString *linkHeader = [[resp allHeaderFields] valueForKey:@"Link"];
-                                            NSArray *links = [linkHeader componentsSeparatedByString:@","];
-                                            self.nextPageURL = nil;
-                                            NSURL * __block blockURL = nil;
-                                            [links enumerateObjectsUsingBlock:^(NSString *link, NSUInteger idx, BOOL *stop) {
-                                                NSString *rel = [[link componentsSeparatedByString:@";"][1] componentsSeparatedByString:@"\""][1];
-                                                if ([rel isEqualToString:@"next"])
-                                                {
-                                                    blockURL = [NSURL URLWithString:[[link componentsSeparatedByString:@";"][0] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]]];
-                                                    *stop = YES;
-                                                }
-                                            }];
-                                            self.nextPageURL = blockURL;
+                                            
+                                            [self setNextPageURL:[self nextPageURLFromResonse:resp]];
                                         }
                                         return [UAGithubJSONParser parseJSON:data error:&blockError];
                                     }
@@ -362,6 +278,128 @@
     return returnValue;
 }
 
+- (NSURL *)nextPageURLFromResonse:(NSHTTPURLResponse *)response
+{
+    NSURL * __block url = nil;
+    
+    NSString *linkHeader = [[response allHeaderFields] valueForKey:@"Link"];
+    NSArray *links = [linkHeader componentsSeparatedByString:@","];
+    
+    [links enumerateObjectsUsingBlock:^(NSString *link, NSUInteger idx, BOOL *stop) {
+        NSString *rel = [[link componentsSeparatedByString:@";"][1] componentsSeparatedByString:@"\""][1];
+        if ([rel isEqualToString:@"next"])
+        {
+            url = [NSURL URLWithString:[[link componentsSeparatedByString:@";"][0] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]]];
+            *stop = YES;
+        }
+    }];
+    
+    return url;
+}
+
+- (NSString *)httpMethodForRequestType:(UAGithubRequestType )requestType
+{
+    NSString *httpMethod;
+    
+    switch (requestType)
+    {
+        case UAGithubIssueAddRequest:
+        case UAGithubRepositoryCreateRequest:
+        case UAGithubRepositoryDeleteConfirmationRequest:
+        case UAGithubMilestoneCreateRequest:
+        case UAGithubDeployKeyAddRequest:
+        case UAGithubDeployKeyDeleteRequest:
+        case UAGithubIssueCommentAddRequest:
+        case UAGithubPublicKeyAddRequest:
+        case UAGithubRepositoryLabelAddRequest:
+        case UAGithubIssueLabelAddRequest:
+        case UAGithubTreeCreateRequest:
+        case UAGithubBlobCreateRequest:
+        case UAGithubReferenceCreateRequest:
+        case UAGithubRawCommitCreateRequest:
+        case UAGithubGistCreateRequest:
+        case UAGithubGistCommentCreateRequest:
+        case UAGithubGistForkRequest:
+        case UAGithubPullRequestCreateRequest:
+        case UAGithubPullRequestCommentCreateRequest:
+        case UAGithubEmailAddRequest:
+        case UAGithubTeamCreateRequest:
+        case UAGithubMarkdownRequest:
+        case UAGithubRepositoryMergeRequest:
+        {
+            httpMethod = @"POST";
+        }
+            break;
+            
+        case UAGithubCollaboratorAddRequest:
+        case UAGithubIssueLabelReplaceRequest:
+        case UAGithubFollowRequest:
+        case UAGithubGistStarRequest:
+        case UAGithubPullRequestMergeRequest:
+        case UAGithubOrganizationMembershipPublicizeRequest:
+        case UAGithubTeamMemberAddRequest:
+        case UAGithubTeamRepositoryManagershipAddRequest:
+        case UAGithubNotificationsMarkReadRequest:
+        case UAGithubNotificationThreadSubscriptionRequest:
+        {
+            httpMethod = @"PUT";
+        }
+            break;
+            
+        case UAGithubRepositoryUpdateRequest:
+        case UAGithubMilestoneUpdateRequest:
+        case UAGithubIssueEditRequest:
+        case UAGithubIssueCommentEditRequest:
+        case UAGithubPublicKeyEditRequest:
+        case UAGithubUserEditRequest:
+        case UAGithubRepositoryLabelEditRequest:
+        case UAGithubReferenceUpdateRequest:
+        case UAGithubGistUpdateRequest:
+        case UAGithubGistCommentUpdateRequest:
+        case UAGithubPullRequestUpdateRequest:
+        case UAGithubPullRequestCommentUpdateRequest:
+        case UAGithubOrganizationUpdateRequest:
+        case UAGithubTeamUpdateRequest:
+        case UAGithubNotificationsMarkThreadReadRequest:
+        {
+            httpMethod = @"PATCH";
+        }
+            break;
+            
+        case UAGithubMilestoneDeleteRequest:
+        case UAGithubIssueDeleteRequest:
+        case UAGithubIssueCommentDeleteRequest:
+        case UAGithubUnfollowRequest:
+        case UAGithubPublicKeyDeleteRequest:
+        case UAGithubCollaboratorRemoveRequest:
+        case UAGithubRepositoryLabelRemoveRequest:
+        case UAGithubIssueLabelRemoveRequest:
+        case UAGithubGistUnstarRequest:
+        case UAGithubGistDeleteRequest:
+        case UAGithubGistCommentDeleteRequest:
+        case UAGithubPullRequestCommentDeleteRequest:
+        case UAGithubEmailDeleteRequest:
+        case UAGithubOrganizationMemberRemoveRequest:
+        case UAGithubOrganizationMembershipConcealRequest:
+        case UAGithubTeamDeleteRequest:
+        case UAGithubTeamMemberRemoveRequest:
+        case UAGithubTeamRepositoryManagershipRemoveRequest:
+        case UAGithubNotificationDeleteSubscriptionRequest:
+        {
+            httpMethod = @"DELETE";
+        }
+            break;
+            
+        default:
+        {
+            httpMethod = @"GET";
+        }
+            break;
+    }
+    
+    return httpMethod;
+}
+
 
 - (id)sendRequest:(NSString *)path requestType:(UAGithubRequestType)requestType responseType:(UAGithubResponseType)responseType withParameters:(id)params error:(NSError **)error
 {
@@ -369,9 +407,9 @@
 }
 
 
-- (id)sendRequest:(NSString *)path requestType:(UAGithubRequestType)requestType responseType:(UAGithubResponseType)responseType page:(NSInteger)page error:(NSError **)error
+- (id)sendRequest:(NSString *)path requestType:(UAGithubRequestType)requestType responseType:(UAGithubResponseType)responseType page:(NSInteger)page itemsPerPage:(NSInteger)itemsPerPage error:(NSError **)error;
 {
-    return [self sendRequest:path requestType:requestType responseType:responseType withParameters:nil page:page error:error];
+    return [self sendRequest:path requestType:requestType responseType:responseType withParameters:@{@"per_page":[NSString stringWithFormat:@"%li", itemsPerPage]} page:page error:error];
 }
 
 
@@ -863,7 +901,7 @@ singlePageSuccess:singleSuccessBlock
 
 - (void)repositoriesStarredPage:(int)page success:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock
 {
-    [self invoke:^(id self){[self sendRequest:@"user/starred" requestType:UAGithubRepositoryLabelsRequest responseType:UAGithubRepositoryLabelsResponse page:page error:nil];} success:successBlock failure:failureBlock];
+    [self invoke:^(id self){[self sendRequest:@"user/starred" requestType:UAGithubRepositoryLabelsRequest responseType:UAGithubRepositoryLabelsResponse page:page itemsPerPage:0 error:nil];} success:successBlock failure:failureBlock];
 }
 
 #pragma mark Labels
@@ -1216,13 +1254,13 @@ singlePageSuccess:singleSuccessBlock
 
 - (void)repositoriesForUser:(NSString *)aUser includeWatched:(BOOL)watched success:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock
 {
-	[self repositoriesForUser:aUser includeWatched:watched page:1 success:successBlock failure:failureBlock];	
+    [self repositoriesForUser:aUser includeWatched:watched page:0 itemsPerPage:0 success:successBlock failure:failureBlock];
 }
 
 #pragma mark TODO watched repos?
-- (void)repositoriesForUser:(NSString *)aUser includeWatched:(BOOL)watched page:(int)page success:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock
+- (void)repositoriesForUser:(NSString *)aUser includeWatched:(BOOL)watched page:(int)page itemsPerPage:(int)itemsPerPage success:(UAGithubEngineSuccessBlock)successBlock failure:(UAGithubEngineFailureBlock)failureBlock
 {
-	[self invoke:^(id self){[self sendRequest:[NSString stringWithFormat:@"users/%@/repos", aUser] requestType:UAGithubRepositoriesRequest responseType:UAGithubRepositoriesResponse error:nil];} success:successBlock failure:failureBlock];	
+	[self invoke:^(id self){[self sendRequest:[NSString stringWithFormat:@"users/%@/repos", aUser] requestType:UAGithubRepositoriesRequest responseType:UAGithubRepositoriesResponse page:page itemsPerPage:itemsPerPage error:nil];} success:successBlock failure:failureBlock];
 }
 
 
