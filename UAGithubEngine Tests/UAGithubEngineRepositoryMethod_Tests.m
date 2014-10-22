@@ -7,9 +7,10 @@
 //
 //  These are the tests for the repository methods of the GithubEngine.
 //
-//  It may happen that the rate limit is reached. In this case please
-//  initialise the engine under test in the setUp method of the tests
-//  with username and password. This will get you a higher rate limit.
+//  It may happen that the rate limit is reached (https://developer.github.com/v3/#rate-limiting).
+//  In this case please initialise the engine under test in the setUp
+//  method of the tests with username and password. This will get you
+//  a higher rate limit.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -25,14 +26,26 @@
 
 @implementation UAGithubEngineRepositoryMethod_Tests
 
-static NSString * const kUserName = @"github";
+// Don't commit these!
+static NSString * const kGitHubUserName = @"";
+static NSString * const kGitHubPassword = @"";
+
+static NSString * const kRepositoryUserName = @"github";
 static CGFloat const kExpectationWaitTimeOut = 5;
 
 - (void)setUp
 {
     [super setUp];
 
-    _engineUnderTest = [[UAGithubEngine alloc] init];
+    if (0 < [kGitHubUserName length] && 0 < [kGitHubPassword length])
+    {
+        _engineUnderTest = [[UAGithubEngine alloc] initWithUsername:kGitHubUserName password:kGitHubPassword withReachability:NO];
+    }
+    else
+    {
+        _engineUnderTest = [[UAGithubEngine alloc] init];
+    }
+    
 }
 
 - (void)tearDown
@@ -46,7 +59,7 @@ static CGFloat const kExpectationWaitTimeOut = 5;
 {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Fetched repositories expectation"];
     
-    [_engineUnderTest repositoriesForUser:kUserName includeWatched:NO success:^(id result) {
+    [_engineUnderTest repositoriesForUser:kRepositoryUserName includeWatched:NO success:^(id result) {
         
         [expectation fulfill];
         
@@ -73,7 +86,7 @@ static CGFloat const kExpectationWaitTimeOut = 5;
         int expectedItemsCount = (int)expectedItemsCounts[i];
         __block NSUInteger fetchedItemsCount = 0;
         
-        [_engineUnderTest repositoriesForUser:kUserName includeWatched:NO page:1 itemsPerPage:expectedItemsCount success:^(id result) {
+        [_engineUnderTest repositoriesForUser:kRepositoryUserName includeWatched:NO page:1 itemsPerPage:expectedItemsCount success:^(id result) {
         
             fetchedItemsCount = [result count];
             
@@ -81,7 +94,7 @@ static CGFloat const kExpectationWaitTimeOut = 5;
             
         } failure:^(NSError *error) {
             
-            XCTFail(@"Repositories could not be fetched for user %@ due to error %@", kUserName, [error domain]);
+            XCTFail(@"Repositories could not be fetched for user %@ due to error %@", kRepositoryUserName, [error domain]);
             
         }];
         
