@@ -502,7 +502,7 @@ endSuccessBlock:(UAGithubEngineSuccessBlock)endSuccessBlock
     if (self.isMultiPageRequest)
     {
         [self.multiPageArray addObjectsFromArray:result];
-        NSLog(@"%@", @([self.multiPageArray count]));
+
         endSuccessBlock(result);
     }
     else
