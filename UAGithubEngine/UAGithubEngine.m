@@ -55,6 +55,8 @@
 
 @synthesize username, password, token, reachability, isReachable;
 
+static NSString * const kXRateLimitRemainingKey = @"X-RateLimit-Remaining";
+
 #pragma mark
 #pragma mark Setup & Teardown
 #pragma mark
@@ -201,7 +203,7 @@
                                     NSInteger statusCode = resp.statusCode;
                                     
                                     NSDictionary *headerFields = [resp allHeaderFields];
-                                    if ([[headerFields allKeys] containsObject:@"X-RateLimit-Remaining"] && [[[resp allHeaderFields] objectForKey:@"X-RateLimit-Remaining"] integerValue] == 0)
+                                    if ([[headerFields allKeys] containsObject:kXRateLimitRemainingKey] && [[[resp allHeaderFields] objectForKey:kXRateLimitRemainingKey] integerValue] == 0)
                                     {
                                         NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:headerFields];
                                         [userInfo addEntriesFromDictionary:@{@"request":urlRequest}];
