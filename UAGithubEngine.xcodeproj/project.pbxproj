@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B2ED7B819F8265E00467DFD /* UAGithubEngineRepositoryMethod_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD77D8F19F7C63A00FBBA13 /* UAGithubEngineRepositoryMethod_Tests.m */; };
+		3BF3530419F7C702006D365E /* UAGithubEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC52FF9D15378566005A767A /* UAGithubEngine.framework */; };
 		CC52FF9F15378566005A767A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC52FF9E15378566005A767A /* Cocoa.framework */; };
 		CC52FFA615378566005A767A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CC52FFA415378566005A767A /* InfoPlist.strings */; };
 		CC52FFC3153785F3005A767A /* NSArray+Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = CC52FFAE153785F3005A767A /* NSArray+Utilities.h */; };
@@ -37,6 +39,9 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		3BD77D8B19F7C63A00FBBA13 /* UAGithubEngine Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "UAGithubEngine Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3BD77D8E19F7C63A00FBBA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3BD77D8F19F7C63A00FBBA13 /* UAGithubEngineRepositoryMethod_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UAGithubEngineRepositoryMethod_Tests.m; sourceTree = "<group>"; };
 		5B2A1CE317ED4AC300AA109A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		5B2A1CE517ED4AC300AA109A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		5B2A1CE717ED4AC300AA109A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -71,6 +76,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3BD77D8819F7C63A00FBBA13 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3BF3530419F7C702006D365E /* UAGithubEngine.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CC52FF9915378566005A767A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -106,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				CC52FF9D15378566005A767A /* UAGithubEngine.framework */,
+				3BD77D8B19F7C63A00FBBA13 /* UAGithubEngine Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -114,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				CC52FFA115378566005A767A /* UAGithubEngine */,
+				3BD77D8C19F7C63A00FBBA13 /* UAGithubEngine Tests */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -131,6 +146,23 @@
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3BD77D8C19F7C63A00FBBA13 /* UAGithubEngine Tests */ = {
+			isa = PBXGroup;
+			children = (
+				3BD77D8F19F7C63A00FBBA13 /* UAGithubEngineRepositoryMethod_Tests.m */,
+				3BD77D8D19F7C63A00FBBA13 /* Supporting Files */,
+			);
+			path = "UAGithubEngine Tests";
+			sourceTree = "<group>";
+		};
+		3BD77D8D19F7C63A00FBBA13 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3BD77D8E19F7C63A00FBBA13 /* Info.plist */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		CC52FFA115378566005A767A /* UAGithubEngine */ = {
@@ -204,6 +236,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		3BD77D8A19F7C63A00FBBA13 /* UAGithubEngine Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3BD77D9319F7C63A00FBBA13 /* Build configuration list for PBXNativeTarget "UAGithubEngine Tests" */;
+			buildPhases = (
+				3BD77D8719F7C63A00FBBA13 /* Sources */,
+				3BD77D8819F7C63A00FBBA13 /* Frameworks */,
+				3BD77D8919F7C63A00FBBA13 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "UAGithubEngine Tests";
+			productName = "UAGithubEngine Tests";
+			productReference = 3BD77D8B19F7C63A00FBBA13 /* UAGithubEngine Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		CC52FF9C15378566005A767A /* UAGithubEngine */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CC52FFAB15378566005A767A /* Build configuration list for PBXNativeTarget "UAGithubEngine" */;
@@ -229,6 +278,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0440;
+				TargetAttributes = {
+					3BD77D8A19F7C63A00FBBA13 = {
+						CreatedOnToolsVersion = 6.0.1;
+					};
+				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "UAGithubEngine" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -242,11 +296,19 @@
 			projectRoot = "";
 			targets = (
 				CC52FF9C15378566005A767A /* UAGithubEngine */,
+				3BD77D8A19F7C63A00FBBA13 /* UAGithubEngine Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3BD77D8919F7C63A00FBBA13 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CC52FF9B15378566005A767A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -258,6 +320,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3BD77D8719F7C63A00FBBA13 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B2ED7B819F8265E00467DFD /* UAGithubEngineRepositoryMethod_Tests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CC52FF9815378566005A767A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -289,6 +359,90 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		3BD77D9119F7C63A00FBBA13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "UAGithubEngine Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3BD77D9219F7C63A00FBBA13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "UAGithubEngine Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -380,6 +534,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3BD77D9319F7C63A00FBBA13 /* Build configuration list for PBXNativeTarget "UAGithubEngine Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3BD77D9119F7C63A00FBBA13 /* Debug */,
+				3BD77D9219F7C63A00FBBA13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "UAGithubEngine" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
